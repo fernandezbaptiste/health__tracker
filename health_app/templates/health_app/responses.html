@@ -1,0 +1,16 @@
+<!-- health_tracker/templates/responses.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Responses</title>
+</head>
+<body>
+    <h1>Generated Responses</h1>
+    <ul>
+        {% for response in responses %}
+            <li>{{ response }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'track' %}">Go back to Health Tracker</a>
+</body>
+</html>
