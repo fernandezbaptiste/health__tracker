@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Food</title>
+</head>
+<body>
+    <h2>Add Food</h2>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="food_name">Food Name:</label>
+        <input type="text" id="food_name" name="food_name" required>
+        <button type="submit">Add Food</button>
+    </form>
+    
+    <h2>Existing Foods</h2>
+    <ul>
+        {% for food in foods %}
+            <li>
+                {{ food.name }} - 
+                Carbs: {{ food.carbs }}g, 
+                Protein: {{ food.protein }}g, 
+                Fats: {{ food.fats }}g, 
+                Calories: {{ food.calories }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

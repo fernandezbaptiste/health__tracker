@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'counter',
     'mathfilters',
     'health_app',
+    'myapp',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +134,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/main'

@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
+<body class="gradient-background" style=" background-image: url(https://images01.nicepage.com/c461c07a441a5d220e8feb1a/e4f8bfed05885435a6be1a4d/-min.jpg);
+background-size: cover; padding: 50px;
+box-sizing: border-box; ">
+<div class="container position-relative pt-16 pb-36 bg-gradient-danger overflow-hidden" 
+style="background: linear-gradient(98.24deg, #020c656d 0%, hsla(240, 95%, 15%, 0.42) 47.4%, #020969a7 100%);
+ width: 500px;
+ color: #ffffff;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+ border-radius: 10px;">
     <h1>Login</h1> 
     {% if error_message %}
     <p class="text-danger">{{ error_message }}</p>
@@ -17,7 +25,9 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <div class="text-center">
+        <a href="{% url 'home' %}"><button type="submit" class="btn btn-primary ">Login</button></a>
+        </div>
     </form>
-</div>
+</div></body>
 {% endblock %}

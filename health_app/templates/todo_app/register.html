@@ -53,26 +53,42 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
+<body class="gradient-background" style="background-image: url('https://images03.nicepage.com/c461c07a441a5d220e8feb1a/cdb080b4044155eba390e3cf/xqaS.jpg'); 
+background-size: cover;
+color: white; padding: 50px;
+box-sizing: border-box; ">
+
+    <div class="container position-relative pt-16 pb-36 bg-gradient-danger overflow-hidden" 
+    style="background: linear-gradient(98.24deg, #020c656d 0%, hsla(240, 95%, 15%, 0.42) 47.4%, #020969a7 100%);
+    width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;">
         <h1>Register</h1>
         <form method="post">
             {% csrf_token %}
-
+            <div class="form-group">
             <label for="{{ form.username.id_for_label }}">Username:</label>
-            {{ form.username }}
-
+            <div class="form-control">
+            {{ form.username }}</div>
+            </div>
+            <div class="form-group">
             <label for="{{ form.email.id_for_label }}">Email:</label>
             {{ form.email }}
-
+            </div>
+            <div class="form-group">
             <label for="{{ form.password1.id_for_label }}">Password:</label>
             {{ form.password1 }}
-
+            </div>
+            <div class="form-group">
             <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
             {{ form.password2 }}
-
-            <button type="submit">Register</button>
+            </div>
+            <div class="text-center" style="background-color: darkgreen;">
+            <button type="submit">Register</button></div>
         </form>
+        <div class="text-center">
+        <a href="{% url 'login' %}"><button type="submit" style="margin-top: 5px;">login</button></a>
+    </div>
     </div>
 </body>
 </html>

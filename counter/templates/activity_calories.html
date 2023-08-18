@@ -6,36 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Calories</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1 class="title">Activity Calories</h1>
-        <table class="activity-table">
+<body style="background-image: url(https://assets.nicepagecdn.com/d2cc3eaa/3627412/images/Untitled-4656-min.png);
+background-size: cover;
+background-position: center;
+height: 100vh;">
+    <div class="container mt-5" >
+        <h1 class="text-center mb-4">Activity Calories</h1>
+        <table class="table" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;">
             <thead>
                 <tr>
-                    <th class="table-heading">Image</th>
-                    <th class="table-heading">Name</th>
-                    <th class="table-heading">Calories per Hour</th>
-                    <th class="table-heading">Duration Minutes</th>
-                    <th class="table-heading">Total Calories</th>
+                    <th class="text-center">Image</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Calories per Hour</th>
+                    <th class="text-center">Duration Minutes</th>
+                    <th class="text-center">Total Calories</th>
                 </tr>
             </thead>
             <tbody>
                 {% for activity in activity_data %}
-                    <td class="activity-image">
-                        <img src="https://images.unsplash.com/nature" alt="{{ activity.name }}" width="50">
+                <tr>
+                    <td class="text-center">
+                        <img src="https://images01.nicepage.com/c461c07a441a5d220e8feb1a/8abf9708500f530fa3cb6308/jjjjjjjjjjjjjjjjjjj.png" alt="{{ activity.name }}" width="30">
                     </td>
-                    
-                    <td class="activity-name">{{ activity.name }}</td>
-                    <td class="activity-data">{{ activity.calories_per_hour }}</td>
-                    <td class="activity-data">{{ activity.duration_minutes }}</td>
-                    <td class="activity-data">{{ activity.total_calories }}</td>
+                    <td class="text-center">{{ activity.name }}</td>
+                    <td class="text-center">{{ activity.calories_per_hour }}</td>
+                    <td class="text-center">{{ activity.duration_minutes }}</td>
+                    <td class="text-center">{{ activity.total_calories }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <canvas id="activityChart" width="400" height="200"></canvas>
+        <div class="mt-4">
+            <canvas id="activityChart" width="400" height="200"></canvas>
+        </div>
     </div>
     <script>
         const activityData = {{activity_data}};

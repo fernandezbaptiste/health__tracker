@@ -1,0 +1,15 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <h2>Your Sleep Patterns</h2>
+    <ul>
+        {% for sleep_pattern in sleep_patterns %}
+            <li>
+                Start Time: {{ sleep_pattern.start_time }}<br>
+                End Time: {{ sleep_pattern.end_time }}<br>
+                Quality Rating: {{ sleep_pattern.get_quality_rating_display }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_sleep_pattern' %}">Add Sleep Pattern</a>
+{% endblock %}
