@@ -26,5 +26,6 @@ urlpatterns = [
     path('sleep/view/', views.view_sleep_patterns, name='view_sleep_patterns'),
     path('sleep/add/', views.add_sleep_pattern, name='add_sleep_pattern'),
     path('suggest_sleep_cycle/', views.suggest_sleep_cycle, name='suggest_sleep_cycle'),
+    path('generate-report/', views.generate_report, name='generate-report'),
 ]
 urlpatterns += staticfiles_urlpatterns()

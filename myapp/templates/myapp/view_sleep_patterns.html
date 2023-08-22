@@ -1,15 +1,137 @@
-{% extends 'myapp/base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sleep Suggestions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        strong {
+            color: #007bff;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #sleep-patterns-chart {
+        width: 100%;
+        max-width: 800px; /* Adjust the max-width as needed */
+        margin: 0 auto; }
+    </style>
+   
 
-{% block content %}
-    <h2>Your Sleep Patterns</h2>
-    <ul>
-        {% for sleep_pattern in sleep_patterns %}
-            <li>
-                Start Time: {{ sleep_pattern.start_time }}<br>
-                End Time: {{ sleep_pattern.end_time }}<br>
-                Quality Rating: {{ sleep_pattern.get_quality_rating_display }}
-            </li>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Sleep Patterns</h1>
+        <ul>
+            {% for pattern in sleep_patterns %}
+                <li>
+                    <strong>Sleep time:</strong> {{ pattern.start_time|date:"Y-m-d H:i" }}<br>
+                    <strong>Wake time:</strong> {{ pattern.end_time|date:"Y-m-d H:i" }}<br>
+                    <strong>Sleep quality:</strong> {{ pattern.get_quality_rating_display }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Add a <div> for the Plotly bar chart -->
+    <div id="sleep-patterns-chart"></div>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    // Sleep pattern data (replace with your data)
+    var sleepPatternData = [
+        {% for pattern in sleep_patterns %}
+            {
+                'start_time': "{{ pattern.start_time|date:'Y-m-d H:i' }}",
+                'end_time': "{{ pattern.end_time|date:'Y-m-d H:i' }}",
+                'quality': "{{ pattern.get_quality_rating_display }}",
+            },
         {% endfor %}
-    </ul>
-    <a href="{% url 'add_sleep_pattern' %}">Add Sleep Pattern</a>
-{% endblock %}
+    ];
+
+    // Create arrays to hold x and y data
+    var sleepTimes = [];
+    var sleepQuality = [];
+    var sleepQualityColors = [];
+
+    // Extract data from sleepPatternData
+    for (var i = 0; i < sleepPatternData.length; i++) {
+        sleepTimes.push(sleepPatternData[i].start_time);
+        sleepQuality.push(sleepPatternData[i].quality);
+        if (sleepPatternData[i].quality === 1) {
+            sleepQualityColors.push('rgba(255, 0, 0, 0.7)'); // Poor (Red)
+        } else if (sleepPatternData[i].quality === 2) {
+            sleepQualityColors.push('rgba(255, 69, 0, 0.9)'); // Fair (Orange-Red)
+        } else if (sleepPatternData[i].quality === 3) {
+            sleepQualityColors.push('rgba(255, 165, 0, 0.7)'); // Good (Orange)
+        } else if (sleepPatternData[i].quality === 4) {
+            sleepQualityColors.push('rgba(255, 255, 0, 0.7)'); // Very Good (Yellow)
+        } else {
+            sleepQualityColors.push('rgba(0, 128, 0, 0.7)'); // Excellent (Green)
+        }
+    
+    }
+
+    // Define colors based on sleep quality
+
+
+    // Map sleep quality to colors
+   
+
+    // Create the bar chart
+    var data = [{
+        x: sleepTimes,
+        y: sleepQuality,
+        type: 'bar',
+        marker: {
+            color: sleepQualityColors
+        }
+    }];
+
+    var layout = {
+        title: 'Sleep Patterns',
+        xaxis: {
+            title: 'Sleep Time',
+        },
+        yaxis: {
+            title: 'Sleep Quality',
+        }
+    };
+
+    // Create the Plotly chart
+    Plotly.newPlot('sleep-patterns-chart', data, layout);
+</script>
+
+    
+</body>
+</html>

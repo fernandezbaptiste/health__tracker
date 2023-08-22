@@ -1,0 +1,75 @@
+{% extends 'base1.html' %}{% load static %}
+{% block css %}
+
+  
+{% endblock %}
+
+
+{% block content %}
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center" style="background: url({% static 'assets/img/hero-bg1.jpg' %}) center center;">
+    <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
+      <h1>Welcome to FitFusion</h1>
+      <h2>Your all-in-one destination for seamless health tracking and fitness management.</h2>
+      <a href="{% url 'register' %}" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+</main>
+<!-- ======= Team Section ======= -->
+<section id="team" class="team">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="section-title" data-aos="fade-right">
+          <h2>Team</h2>
+          <p>The People Who Make It Happen.</p>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="member" data-aos="zoom-in" data-aos-delay="100">
+              <div class="pic"><img src="assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Ayush Jha</h4>
+                <span></span>
+                <p></p>
+                <div class="social">
+                  <a href=""><i class="ri-github-fill"></i></a>
+                  <a href=""><i class="ri-instagram-fill"></i></a>
+                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member" data-aos="zoom-in" data-aos-delay="200">
+              <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Vaishnavi Shripati</h4>
+                <span></span>
+                <p></p>
+                <div class="social">
+                  <a href=""><i class="ri-github-fill"></i></a>
+                  <a href=""><i class="ri-instagram-fill"></i></a>
+                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section><!-- End Team Section -->
+
+<!-- ======= Contact Section ======= -->
+
+{% endblock %}

@@ -22,3 +22,9 @@ urlpatterns = [
     path('', include('health_app.urls')),
     path('app/',include('myapp.urls')),
 ]
+from django.conf import settings
+from django.conf.urls.static import static
+
+# Now you can access settings.DEBUG and other settings as needed
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

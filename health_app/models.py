@@ -36,8 +36,7 @@ class Diets(models.Model):
 
 from django.contrib.auth.models import User
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     # Add additional fields like age, gender, etc.
 class UserHealthData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -46,3 +45,43 @@ class UserHealthData(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.timestamp}"
+
+from django.contrib.auth.models import User
+from django.db import models
+
+from django.db import models
+from django.contrib.auth.models import User
+
+# Define a function to set the default profile image path
+def default_profile_image_path():
+    return 'profile_images/default_image.png'  # Adjust the path as needed
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, default=None)
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')], default='Male')
+    contact_no = models.CharField(max_length=15, default='')
+    blood_group = models.CharField(max_length=5, default='')
+    weight_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, default=None)
+    height_cm = models.PositiveIntegerField(null=True, blank=True, default=None)
+    # Add other health-related fields here
+
+    # Add an image field for user profile pictures with a default value
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True, default=default_profile_image_path)
+
+    def __str__(self):
+        return self.user.username
+
+
+from django.contrib.auth.models import User
+from django.db import models
+
+class HealthReport(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    calorie_intake = models.PositiveIntegerField(default=0)
+    sleep_duration_minutes = models.PositiveIntegerField(default=0)
+    # Add other health-related fields here
+
+    def __str__(self):
+        return f"Health Report for {self.user.username} on {self.date}"

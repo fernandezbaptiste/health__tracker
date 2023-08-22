@@ -17,7 +17,7 @@ def index(request):
         foods = Food.objects.all()
     consumed_food = Consume.objects.filter(user=request.user)
 
-    return render(request, 'myapp/index.html', {'foods': foods, 'consumed_food': consumed_food})
+    return render(request, 'myapp/index copy.html', {'foods': foods, 'consumed_food': consumed_food})
 
 
 def delete_consume(request, id):
@@ -137,3 +137,49 @@ def suggest_sleep_cycle(request):
     
 def tryi(request):
     return render(request,"myapp/try.html")
+
+from django.shortcuts import render
+from .models import Consume, SleepPattern
+from datetime import date
+from health_app.models import UserProfile
+def generate_report(request):
+    # Get the user's profile data
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    # Get today's date
+    today = date.today()
+
+    # Get the user's calorie intake data for today
+    calorie_intake_today = Consume.objects.filter(user=request.user, date=today).values_list('food_consumed__calories', flat=True)
+    total_calories_today = sum(calorie_intake_today)
+    print(total_calories_today)
+    rem=2000-total_calories_today
+    # Get the user's sleep cycle data
+    sleep_patterns = SleepPattern.objects.filter(user=request.user)
+
+    # Prepare data for sleep quality bar chart
+    sleep_quality_data = {
+        'poor': sleep_patterns.filter(quality_rating=1).count(),
+        'fair': sleep_patterns.filter(quality_rating=2).count(),
+        'good': sleep_patterns.filter(quality_rating=3).count(),
+        'very_good': sleep_patterns.filter(quality_rating=4).count(),
+        'excellent': sleep_patterns.filter(quality_rating=5).count(),
+    }
+
+    # Data for the pie chart
+    pie_chart_data = {
+        'Calories Consumed': total_calories_today,
+        'Remaining Calories': 2000 - total_calories_today,
+    }
+
+    return render(request, 'myapp/report_template.html', {
+        'user_profile': user_profile,
+        'total_calories_today': total_calories_today,
+        'rem':rem,
+        'sleep_quality_data': sleep_quality_data,
+        'pie_chart_data': pie_chart_data,
+    })
+
+
+
+

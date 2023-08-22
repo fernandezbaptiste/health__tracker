@@ -155,3 +155,31 @@ def exercise_nutrition(request):
 
         return render(request, 'exercise_nutrition.html', {'exercise_info': exercise_info})
     return render(request, 'exercise_nutrition.html')
+
+def workout_view(request):
+    return render(request, 'workout.html')
+def index_view(request):
+    return render(request, 'welcome.html')
+
+
+from django.shortcuts import render, redirect
+from .forms import UserProfileForm
+from django.contrib.auth.models import User
+from .models import UserProfile
+
+def view_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'view_profile.html', {'user_profile': user_profile})
+
+def edit_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('view_profile')
+    else:
+        form = UserProfileForm(instance=user_profile)
+    return render(request, 'edit_profile.html', {'form': form})
+
+
