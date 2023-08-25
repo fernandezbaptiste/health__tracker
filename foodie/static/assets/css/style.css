@@ -709,13 +709,13 @@ section {
   width: 64px;
   height: 64px;
   border-radius: 50px;
-  border: 1px solid #009970;
+  border: 1px solid rgb(101, 26, 172);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
   transition: ease-in-out 0.3s;
-  color: #009970;
+  color: rgb(101, 26, 172);
 }
 
 .services .icon-box .icon i {
@@ -745,12 +745,12 @@ section {
 }
 
 .services .icon-box:hover h4 a {
-  color: #009970;
+  color: rgb(101, 26, 172);
 }
 
 .services .icon-box:hover .icon {
   color: #fff;
-  background: #009970;
+  background: rgb(101, 26, 172);
 }
 
 /*--------------------------------------------------------------
@@ -785,7 +785,7 @@ section {
 .portfolio #portfolio-flters li:hover,
 .portfolio #portfolio-flters li.filter-active {
   color: #fff;
-  background: #009970;
+  background: rgb(101, 26, 172);
 }
 
 .portfolio #portfolio-flters li:last-child {

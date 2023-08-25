@@ -1,4 +1,4 @@
-{% extends 'base1.html' %}
+{% extends 'base4.html' %}
 {% load static %} {%load mathfilters%} {%load humanize%}
 
 {% block content %}
@@ -10,9 +10,17 @@
                       {%csrf_token%}
                       <div class="input-group input-group-lg mb-5">
                       <input type="text" name="query" class="form-control inputstyle" placeholder="search for calories in your food..." required>
-                      <button class="btn whoop" type="submit" id="button-addon2">Find calories</button>
+                      <button class="btn whoop" type="submit" id="button-addon2" style="background-color: rgb(101, 26, 172); color: #ffffff; ;" >Find calories</button>
                       </div>
                   </form>
+                  <div class="notice" style="box-shadow: rgba(173, 71, 240, 0.3) 0px 0px 0px 3px; padding: 20px;">
+                    <h3 id="remaining-space" style="text-align: center; font-family: none;">
+                        Include custom food items by clicking this button.
+                    </h3>
+                    <div class="navbar" >
+                        <a class="getstarted scrollto"  style=" margin: auto;" href="{% url 'add_food' %}">ADD</a>  
+                    </div>
+                </div>
                   {% if api %}
                   {% if api == "oops! There was an error" %}
                   <div class ="alert alert-warning"> Oh no! something went wrong.Please try again in sometime. </div>

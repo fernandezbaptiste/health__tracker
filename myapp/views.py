@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Food, Consume
+from health_app.models import UserProfile
 # Create your views here.
 
 
 def index(request):
-
+    user_profile = UserProfile.objects.get(user=request.user)
     if request.method == "POST":
         food_consumed = request.POST['food_consumed']
         consume = Food.objects.get(name=food_consumed)
@@ -17,15 +18,16 @@ def index(request):
         foods = Food.objects.all()
     consumed_food = Consume.objects.filter(user=request.user)
 
-    return render(request, 'myapp/index copy.html', {'foods': foods, 'consumed_food': consumed_food})
+    return render(request, 'myapp/index.html', {'foods': foods, 'consumed_food': consumed_food,'user_profile':user_profile})
 
 
 def delete_consume(request, id):
+    user_profile = UserProfile.objects.get(user=request.user)
     consumed_food = Consume.objects.get(id=id)
     if request.method == 'POST':
         consumed_food.delete()
         return redirect('/app')
-    return render(request, 'myapp/delete.html')
+    return render(request, 'myapp/delete.html',{'user_profile':user_profile})
 
 
 
@@ -84,20 +86,22 @@ from .forms import SleepPatternForm
 
 def view_sleep_patterns(request):
     sleep_patterns = SleepPattern.objects.filter(user=request.user)
-    context = {'sleep_patterns': sleep_patterns}
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {'sleep_patterns': sleep_patterns,'user_profile':user_profile}
     return render(request, 'myapp/view_sleep_patterns.html', context)
 
 def add_sleep_pattern(request):
+    user_profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
         form = SleepPatternForm(request.POST)
         if form.is_valid():
             sleep_pattern = form.save(commit=False)
             sleep_pattern.user = request.user
             sleep_pattern.save()
-            return redirect('myapp/view_sleep_patterns')
+            return redirect('x/')
     else:
         form = SleepPatternForm()
-    context = {'form': form}
+    context = {'form': form,'user_profile':user_profile}
     return render(request, 'myapp/add_sleep_pattern.html', context)
 
 from django.shortcuts import render
@@ -105,6 +109,7 @@ from .models import SleepPattern
 import openai
 
 def suggest_sleep_cycle(request):
+    user_profile = UserProfile.objects.get(user=request.user)
     user = request.user  # Assuming you're using authentication
     sleep_patterns = SleepPattern.objects.filter(user=user)
 
@@ -129,7 +134,8 @@ def suggest_sleep_cycle(request):
 
     context = {
         "sleep_patterns": sleep_patterns,
-        "suggestion": suggestion
+        "suggestion": suggestion,
+        'user_profile':user_profile
     }
 
     return render(request, "myapp/suggestions.html", context)
@@ -171,6 +177,17 @@ def generate_report(request):
         'Calories Consumed': total_calories_today,
         'Remaining Calories': 2000 - total_calories_today,
     }
+    prompt = f"Based on your data: Total calories today: {total_calories_today}, Sleep patterns - Poor: {sleep_quality_data['poor']}, Fair: {sleep_quality_data['fair']}, Good: {sleep_quality_data['good']}, Very Good: {sleep_quality_data['very_good']}, Excellent: {sleep_quality_data['excellent']}, etc. What suggestions can you provide?"
+
+    response = openai.Completion.create(
+        engine="text-davinci-002",  # Choose an appropriate engine
+        prompt=prompt,
+        max_tokens=100,  # Adjust the max_tokens as needed
+        n=1
+    )
+
+    # Extract the generated suggestions from the GPT-3 response
+    suggestions = response.choices[0].text.strip()
 
     return render(request, 'myapp/report_template.html', {
         'user_profile': user_profile,
@@ -178,6 +195,8 @@ def generate_report(request):
         'rem':rem,
         'sleep_quality_data': sleep_quality_data,
         'pie_chart_data': pie_chart_data,
+        'sleep_patterns':sleep_patterns,
+        'suggestions':suggestions,
     })
 
 

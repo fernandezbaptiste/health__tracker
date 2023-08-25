@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sleep Suggestions</title>
+{% extends 'base2.html' %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,15 +39,11 @@
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        #sleep-patterns-chart {
-        width: 100%;
-        max-width: 800px; /* Adjust the max-width as needed */
-        margin: 0 auto; }
     </style>
    
 
-</head>
-<body>
+   {% block content %}
+<div>
     <div class="container">
         <h1>Your Sleep Patterns</h1>
         <ul>
@@ -62,70 +55,69 @@
                 </li>
             {% endfor %}
         </ul>
+        
+        <h2>Sleep Cycle Suggestion</h2>
+        <p>{{ suggestion }}</p>
     </div>
-    
-    <!-- Add a <div> for the Plotly bar chart -->
-    <div id="sleep-patterns-chart"></div>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-    // Sleep pattern data (replace with your data)
-    var sleepPatternData = [
-        {% for pattern in sleep_patterns %}
-            {
-                'start_time': "{{ pattern.start_time|date:'Y-m-d H:i' }}",
-                'end_time': "{{ pattern.end_time|date:'Y-m-d H:i' }}",
-                'quality': {{ pattern.sleep_quality }}
-            },
-        {% endfor %}
+
+    <canvas id="sleepChart" width="400" height="300"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+         const sleepData = [
+        { date: '2023-08-01', start: '23:00', end: '07:00', quality: 'Good' },
+        { date: '2023-08-02', start: '23:30', end: '06:30', quality: 'Fair' },
+        { date: '2023-08-03', start: '00:00', end: '08:00', quality: 'Very Good' },
+        // ... add more sample data here ...
     ];
 
-    // Create arrays to hold x and y data
-    var sleepTimes = [];
-    var sleepQuality = [];
-
-    // Extract data from sleepPatternData
-    for (var i = 0; i < sleepPatternData.length; i++) {
-        sleepTimes.push(sleepPatternData[i].start_time);
-        sleepQuality.push(sleepPatternData[i].quality);
-    }
-
-    // Define colors based on sleep quality
-    var colors = {
-        1: 'rgba(255, 0, 0, 0.7)',    // Poor (Red)
-        2: 'rgba(255, 69, 0, 0.7)',   // Fair (Orange-Red)
-        3: 'rgba(255, 165, 0, 0.7)',  // Good (Orange)
-        4: 'rgba(255, 255, 0, 0.7)',  // Very Good (Yellow)
-        5: 'rgba(0, 128, 0, 0.7)'     // Excellent (Green)
-    };
-
-    // Map sleep quality to colors
-    var sleepQualityColors = sleepQuality.map(function(quality) {
-        return colors[quality];
-    });
-
-    // Create the bar chart
-    var data = [{
-        x: sleepTimes,
-        y: sleepQuality,
-        type: 'bar',
-        marker: {
-            color: sleepQualityColors
-        }
-    }];
-
-    var layout = {
-        title: 'Sleep Patterns',
-        xaxis: {
-            title: 'Sleep Time',
-        },
-        yaxis: {
-            title: 'Sleep Quality',
-        }
-    };
-
-    Plotly.newPlot('sleep-patterns-chart', data, layout);
-</script>
-
+   
+           
+        const dates = sleepData.map(item => item.date);
+        const starts = sleepData.map(item => item.start);
+        const ends = sleepData.map(item => item.end);
+        const qualities = sleepData.map(item => item.quality);
     
-</body>
-</html>
+        const ctx = document.getElementById('sleepScatter').getContext('2d');
+        new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Sleep Cycles',
+                    data: sleepData.map(item => ({
+                        x: item.date,
+                        y: item.start,
+                        r: 5  // Marker size
+                    })),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Sleep Start Time'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(context) {
+                            const data = sleepData[context.dataIndex];
+                            return `${data.start} - ${data.end}, Quality: ${data.quality}`;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+</div>
+{% endblock %}

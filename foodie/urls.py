@@ -15,16 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('food/',include('counter.urls')),
     path('', include('health_app.urls')),
     path('app/',include('myapp.urls')),
+    path('chatbot/',include('chatbot.urls')),
 ]
-from django.conf import settings
-from django.conf.urls.static import static
-
-# Now you can access settings.DEBUG and other settings as needed
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

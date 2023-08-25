@@ -50,7 +50,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
+
 
 # Define a function to set the default profile image path
 def default_profile_image_path():
@@ -58,7 +59,7 @@ def default_profile_image_path():
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, default=None)
+    name = models.CharField(max_length=255, default='')
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')], default='Male')
     contact_no = models.CharField(max_length=15, default='')
     blood_group = models.CharField(max_length=5, default='')

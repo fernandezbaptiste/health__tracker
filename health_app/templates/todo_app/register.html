@@ -1,94 +1,145 @@
-<!-- register.html -->
+{% extends 'base3.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registration</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+{% block content %}
+<style>
+     .row {
+        text-align: left;
+    }
+    .main-content{
+        width: 55%;
+        border-radius: 20px;
+        box-shadow: 0 5px 5px rgba(0,0,0,.4);
+        margin: 5em auto;
+        display: flex;
+    }
+    .company__info{
+        background-color: rgb(101, 26, 172);
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+    }
+    .fa-android{
+        font-size:3em;
+    }
+    @media screen and (max-width: 640px) {
+        .main-content{width: 90%;}
+        .company__info{
+            display: none;
         }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .login_form{
+            border-top-left-radius:20px;
+            border-bottom-left-radius:20px;
         }
+    }
+    @media screen and (min-width: 642px) and (max-width:800px){
+        .main-content{width: 70%;}
+    }
+    .row > h2{
+        color:rgb(101, 26, 172);
+    }
+    .login_form{
+        background-color: #fff;
+        border-top-right-radius:20px;
+        border-bottom-right-radius:20px;
+        border-top:1px solid #ccc;
+        border-right:1px solid #ccc;
+    }
+    form{
+        padding: 0 2em;
+    }
+    .form__input{
+        max-width: 100%;
+        border:0px solid transparent;
+        border-radius: 0;
+        border-bottom: 1px solid #aaa;
+        padding: 1em .5em .5em;
+        padding-left: 2em;
+        outline:none;
+        margin:1.5em auto;
+        transition: all .5s ease;
+    }
+    .form__input:focus{
+        border-bottom-color: rgb(101, 26, 172);
+        box-shadow: 0 0 5px rgba(0,80,80,.4); 
+        border-radius: 4px;
+    }
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: auto;
+    }
 
-        h1 {
-            text-align: center;
-        }
+    .form-group label {
+        flex: 1;
+        margin-right: 10px;
+    }
 
-        form {
-            margin-top: 20px;
-        }
+    .form-group .form__input {
+        flex: 2;
+    }
+    .btn{
+        transition: all .5s ease;
+        width: 70%;
+        border-radius: 30px;
+        color:rgb(101, 26, 172);
+        font-weight: 600;
+        background-color: #fff;
+        border: 1px solid rgb(101, 26, 172);
+        margin-top: 1.5em;
+        margin-bottom: 1em;
+    }
+    .btn:hover, .btn:focus{
+        background-color: rgb(101, 26, 172);
+        color:#fff;
+    }
+</style>
 
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body class="gradient-background" style="background-image: url('https://images03.nicepage.com/c461c07a441a5d220e8feb1a/cdb080b4044155eba390e3cf/xqaS.jpg'); 
-background-size: cover;
-color: white; padding: 50px;
-box-sizing: border-box; ">
-
-    <div class="container position-relative pt-16 pb-36 bg-gradient-danger overflow-hidden" 
-    style="background: linear-gradient(98.24deg, #020c656d 0%, hsla(240, 95%, 15%, 0.42) 47.4%, #020969a7 100%);
-    width: 500px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;">
-        <h1>Register</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">Username:</label>
-            <div class="form-control">
-            {{ form.username }}</div>
+<div class="body">
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row main-content bg-success text-center">
+            <div class="col-md-4 text-center company__info">
+                <span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
+                <h2 ><b>FitFusion</b></h2>
             </div>
-            <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">Email:</label>
-            {{ form.email }}
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                <div class="container-fluid">
+                    <div class="row" style="margin-top: 10px;">
+                        <h2 style="margin-left: 10rem;"><b>Register</b></h2>
+                    </div>
+                    <div class="row" style="margin-right: 10px;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.username.id_for_label }}">Username:</label>
+                                <input type="username" name="username" id="username" class="form__input" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.email.id_for_label }}">Email:</label>
+                                <input type="email" name="email" id="email" class="form__input" placeholder="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.password1.id_for_label }}">Password:</label>
+                                <input type="password" name="password1" id="password1" class="form__input" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
+                                <input type="password" name="password2" id="password2" class="form__input" placeholder="Re-enter Password">
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn" style="margin: auto;">Register</button>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <p>Already have an account! <a href="{% url 'login' %}" >Login</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-            <label for="{{ form.password1.id_for_label }}">Password:</label>
-            {{ form.password1 }}
-            </div>
-            <div class="form-group">
-            <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
-            {{ form.password2 }}
-            </div>
-            <div class="text-center" style="background-color: darkgreen;">
-            <button type="submit">Register</button></div>
-        </form>
-        <div class="text-center">
-        <a href="{% url 'login' %}"><button type="submit" style="margin-top: 5px;">login</button></a>
+        </div>
     </div>
-    </div>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -1,8 +1,11 @@
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+@login_required
 def home(request):
+    
     import json
     import requests
     if request.method == 'POST':
@@ -23,6 +26,7 @@ def home(request):
 import requests
 from django.shortcuts import render
 
+@login_required
 def activity_calories(request):
     activity = 'cycling'
     api_url = 'https://api.api-ninjas.com/v1/caloriesburned?activity={}'.format(activity)
@@ -44,6 +48,7 @@ from django.shortcuts import render
 import json
 import requests
 
+@login_required
 def calorie_calculator(request):
     total_calories = None
 
@@ -75,6 +80,7 @@ from django.shortcuts import render
 import requests
 import json
 
+@login_required
 def exercise_nutrition(request):
     if request.method == 'POST':
         exercise_name = request.POST.get('exercise_name')

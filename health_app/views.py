@@ -2,16 +2,21 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from .forms import UserRegistrationForm
 from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from django.contrib.auth.models import User
 
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save() 
+            print("yess") # Save the user instance
+            UserProfile.objects.create(user=user)  # Create UserProfile linked to the user
             return redirect('login')  # Redirect to the login page after successful registration
     else:
         form = UserRegistrationForm()
     return render(request, 'todo_app/register.html', {'form': form})
+
 
 class CustomLoginView(LoginView):
     template_name = 'todo_app/login.html'
@@ -33,6 +38,7 @@ openai.api_key = "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"
 messages = [{"role": "system", "content": "You are a health expert that specializes in health advice."}]
 responses = [] 
 
+@login_required
 def custom_chat_gpt(user_input):
     messages.append({"role": "user", "content": user_input})
     response = openai.ChatCompletion.create(
@@ -47,6 +53,7 @@ def custom_chat_gpt(user_input):
     return ChatGPT_reply
 from .models import UserHealthData,User
 
+@login_required
 def health_tracker_view(request):
     if request.method == "POST":
         user_input = request.POST.get("user_input")
@@ -58,6 +65,7 @@ def health_tracker_view(request):
     return render(request, "health_app/health_tracker.html")
 
 
+@login_required
 def responses_view(request):
     return render(request, "health_app/responses.html", {"responses": responses})
 
@@ -156,23 +164,43 @@ def exercise_nutrition(request):
         return render(request, 'exercise_nutrition.html', {'exercise_info': exercise_info})
     return render(request, 'exercise_nutrition.html')
 
+@login_required
 def workout_view(request):
     return render(request, 'workout.html')
-def index_view(request):
-    return render(request, 'welcome.html')
 
+
+def index_view1(request):
+   return render(request, 'welcome.html')
+
+def index_view(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'welcome.html',{'user_profile':user_profile})
+
+
+def aqualog(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'aqualog.html',{'user_profile':user_profile})
+
+@login_required
+def homepage(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'homepage.html',{'user_profile':user_profile})
 
 from django.shortcuts import render, redirect
 from .forms import UserProfileForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 
+@login_required
 def view_profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     return render(request, 'view_profile.html', {'user_profile': user_profile})
 
+@login_required
 def edit_profile(request):
+    print(request.user)
     user_profile = UserProfile.objects.get(user=request.user)
+    
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=user_profile)
         if form.is_valid():

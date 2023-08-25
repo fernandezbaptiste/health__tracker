@@ -17,6 +17,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.urls import path
 from myapp import views
+from health_app.views import index_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
@@ -24,8 +25,10 @@ urlpatterns = [
     path('delete/<int:id>/', views.delete_consume, name="delete"),
     path('add_food/', views.add_food, name='add_food'),
     path('sleep/view/', views.view_sleep_patterns, name='view_sleep_patterns'),
+    path('sleep/add/x/', views.view_sleep_patterns, name='view_sleep_patterns'),
     path('sleep/add/', views.add_sleep_pattern, name='add_sleep_pattern'),
     path('suggest_sleep_cycle/', views.suggest_sleep_cycle, name='suggest_sleep_cycle'),
     path('generate-report/', views.generate_report, name='generate-report'),
+    path('welcome/', index_view, name='welcome'),
 ]
 urlpatterns += staticfiles_urlpatterns()

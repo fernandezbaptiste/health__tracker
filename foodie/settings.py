@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'health_app',
     'myapp',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -138,4 +139,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = '/main'
+LOGIN_REDIRECT_URL = 'profile/edit/'

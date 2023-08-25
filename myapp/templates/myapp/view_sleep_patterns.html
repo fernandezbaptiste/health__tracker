@@ -1,71 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sleep Suggestions</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-left: 5px solid #007bff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        strong {
-            color: #007bff;
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.5;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        #sleep-patterns-chart {
-        width: 100%;
-        max-width: 800px; /* Adjust the max-width as needed */
-        margin: 0 auto; }
-    </style>
-   
+{% extends 'base2.html' %}
 
-</head>
-<body>
-    <div class="container">
-        <h1>Your Sleep Patterns</h1>
-        <ul>
-            {% for pattern in sleep_patterns %}
-                <li>
-                    <strong>Sleep time:</strong> {{ pattern.start_time|date:"Y-m-d H:i" }}<br>
-                    <strong>Wake time:</strong> {{ pattern.end_time|date:"Y-m-d H:i" }}<br>
-                    <strong>Sleep quality:</strong> {{ pattern.get_quality_rating_display }}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center " style="margin-top: 100px ;" >
+    <div class="card p-4" style="width: 40%;">
+        <h2 class="text-center mb-4">Your Sleep Patterns</h2>
+        <ul class="list-unstyled">
+            {% for sleep_pattern in sleep_patterns %}
+                <li class="mb-3">
+                    <strong>Start Time:</strong> {{ sleep_pattern.start_time }}<br>
+                    <strong>End Time:</strong> {{ sleep_pattern.end_time }}<br>
+                    <strong>Quality Rating:</strong> {{ sleep_pattern.get_quality_rating_display }}
                 </li>
             {% endfor %}
         </ul>
+        <a href="{% url 'add_sleep_pattern' %}" class="btn btn-primary btn-block" style="background-color: rgb(101, 26, 172);">Add Sleep Pattern</a>
+        <h3 style="margin: 5px;">Get AI generated Suggestion</h3>
+        <a href="{% url 'suggest_sleep_cycle' %}" class="btn btn-primary btn-block" style="background-color: rgb(101, 26, 172);">Sleep Suggestion</a>
     </div>
-    
-    <!-- Add a <div> for the Plotly bar chart -->
-    <div id="sleep-patterns-chart"></div>
+</div>
+<div id="sleep-patterns-chart"></div>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
     // Sleep pattern data (replace with your data)
@@ -97,16 +50,16 @@
         } else if (sleepPatternData[i].quality === 4) {
             sleepQualityColors.push('rgba(255, 255, 0, 0.7)'); // Very Good (Yellow)
         } else {
-            sleepQualityColors.push('rgba(0, 128, 0, 0.7)'); // Excellent (Green)
+            sleepQualityColors.push('rgba(255, 175, 0, 0.8)'); // Excellent (Green)
         }
-    
+
     }
 
     // Define colors based on sleep quality
 
 
     // Map sleep quality to colors
-   
+
 
     // Create the bar chart
     var data = [{
@@ -132,6 +85,4 @@
     Plotly.newPlot('sleep-patterns-chart', data, layout);
 </script>
 
-    
-</body>
-</html>
+{% endblock %}
